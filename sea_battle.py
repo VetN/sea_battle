@@ -150,7 +150,6 @@ class Sea:
             raise BoardUsedException(GeneralException)
 
         self.used_cage.append(d)  # добавление координат в список занятых клеток
-        print("список клеток", self.used_cage)
         for ship in self.map_ship:
             if d in ship.fun_makeship:  # если d есть в списке координат корабля, то
                 ship.lives -= 1  # уменьшает жизнь
@@ -215,7 +214,7 @@ class User(Player):
 
     def fun_ask(self):
         while True:
-            coord = input('введите два числа через пробел:').split()
+            coord = input('Введите два числа через пробел:').split()
             if len(coord) != 2:
                 raise CoordUsedException(GeneralException)
 
