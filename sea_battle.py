@@ -302,13 +302,13 @@ class Game:
 #  определяем координаты носа корабля
 def fun_coords():
     while True:
-        coord = input("введите 2 числа").split()
+        coord = input("Введите 2 числа:").split()
         if len(coord) != 2:
-            print('неправил. ввод. Введите 2 числа через пробел')
+            print('Неправильный  ввод.\n Введите 2 числа через пробел')
             continue
 
         if not (coord[0].isdigit() and coord[1].isdigit()):
-            print('неправильный ввод ')
+            print('Неправильный ввод. Повторите ')
             continue
 
         x, y = map(int, coord)
@@ -324,11 +324,11 @@ def fun_cour():
     while True:
         cour = input("Введите расположение корабля\n0 - вертикальное\n1-горизонтальное")
         if not cour.isdigit():
-            print("введите число")
+            print("Введите число:")
             continue
         cour = int(cour)
         if 0 != cour != 1:
-            print('неправильный ввод, введите 0 или 1')
+            print('Неправильный ввод.\n Введите 0 или 1')
             continue
         return cour
 
