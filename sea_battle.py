@@ -404,7 +404,6 @@ while True:
 
     else:
         print("\033[34m", "Расстановка кораблей", "\033[0m")
-        #choice = 1
         b = Sea()
         print(b)
         boards = fun_draw()   # создаем сами карту кораблей
