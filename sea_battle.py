@@ -339,7 +339,6 @@ def loop():
 
 # определяем  возможность установки корабля на море
 def fun_maps(x, y, pipe, cour, board):
-
     ship = Ship(A(x, y), pipe, cour)
     try:
         board.fun_addshipsea(ship)
