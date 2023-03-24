@@ -303,7 +303,7 @@ def fun_coords():
     while True:
         coord = input("Введите 2 числа:").split()
         if len(coord) != 2:
-            print('Неправильный  ввод.\n Введите 2 числа через пробел')
+            print('Неправильный  ввод.\nВведите 2 числа через пробел')
             continue
 
         if not (coord[0].isdigit() and coord[1].isdigit()):
@@ -312,7 +312,7 @@ def fun_coords():
 
         x, y = map(int, coord)
         if x < 0 or y < 0 or x > 8 or y > 8:
-            print('число вне диапазона')
+            print('Число вне диапазона')
             continue
         nos = (x, y)
         return nos
@@ -344,7 +344,7 @@ def fun_maps(x, y, pipe, cour, board):
     ship = Ship(A(x, y), pipe, cour)
     try:
         board.fun_addshipsea(ship)
-    except BoardWrongShipException(GeneralException):
+    except BoardWrongShipException:
         fun_enter(pipe, board)
     boa = board
     print(boa)
