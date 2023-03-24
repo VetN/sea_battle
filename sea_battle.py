@@ -341,7 +341,10 @@ def loop():
 def fun_maps(x, y, pipe, cour, board):
 
     ship = Ship(A(x, y), pipe, cour)
-    board.fun_addshipsea(ship)
+    try:
+        board.fun_addshipsea(ship)
+    except BoardUsedException(GeneralException):
+        fun_enter(pipe)
     boa = board
     print(boa)
     return boa
