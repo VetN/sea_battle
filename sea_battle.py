@@ -276,8 +276,8 @@ class Game:
     def fun_cyclegame(self):
         num = 0
         while True:
-            print("\033[35m", "Игровое поле игрока\n", self.user.board, "\033[0m")
-            print("Игровое поле компьютера\n", self.kom.board)
+            print("\033[35m", "Игровое поле игрока\n",self.user.board, "\033[0m")
+            print("Игровое поле компьютера\n",self.kom.board)
             if num % 2 == 0:
                 print("Ваш ход! Ход №", num)
                 repeat = self.user.fun_move()
@@ -286,12 +286,12 @@ class Game:
                 repeat = self.kom.fun_move()
             if repeat:
                 num -= 1
-            if self.kom.board.count == 2:
+            if self.kom.board.count == 8:
                 print("\033[35m", "Поздравляем! Вы победили!", "\033[0m")
                 print(self.kom.board)
                 break
 
-            if self.user.board.count == 2:
+            if self.user.board.count == 8:
                 print("Упс! Победил компьютер!")
                 print(self.user.board)
                 break
@@ -345,6 +345,7 @@ def fun_maps(x, y, pipe, cour, board):
     try:
         board.fun_addshipsea(ship)
     except BoardWrongShipException:
+        print("Этот ход уже был")
         fun_enter(pipe, board)
     boa = board
     print(boa)
@@ -406,6 +407,7 @@ while True:
 
     else:
         print("\033[34m", "Расстановка кораблей", "\033[0m")
+        choice = 1
         b = Sea()
         print(b)
         boards = fun_draw()   # создаем сами карту кораблей
