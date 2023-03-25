@@ -94,7 +94,7 @@ class Sea:
 
     # создание клеток моря
     def __str__(self):
-        print('    | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |')
+        print('   | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |')
         print("-" * 42)
         res = ""
 
@@ -105,6 +105,7 @@ class Sea:
         # cкрывает корабли
         if self.hide:
             res = res.replace("| ▉", "| O")
+            print("я тут")
         return res
 
     # cтавит корабль на море
@@ -121,7 +122,7 @@ class Sea:
         self.map_ship.append(ship)
         self.fun_perimetr(ship)
 
-    def fun_perimetr(self, ship, view=True):
+    def fun_perimetr(self, ship, view=False):
         perimetr = [(-1, -1), (-1, 0), (-1, 1),
                     (0, -1), (0, 0), (0, 1),
                     (1, -1), (1, 0), (1, 1)]
@@ -240,7 +241,7 @@ class Game:
         else:
             plaboard = boards
         comboard = self.fun_randboa()
-        comboard.hide = True
+        comboard.hide = False
 
         self.kom = Kom(comboard, plaboard)
         self.user = User(plaboard, comboard)
@@ -276,8 +277,8 @@ class Game:
     def fun_cyclegame(self):
         num = 0
         while True:
-            print("\033[35m", "Игровое поле игрока\n",self.user.board, "\033[0m")
-            print("Игровое поле компьютера\n",self.kom.board)
+            print("\033[35m", "Игровое поле игрока\n", self.user.board, "\033[0m")
+            print("Игровое поле компьютера\n", self.kom.board)
             if num % 2 == 0:
                 print("Ваш ход! Ход №", num)
                 repeat = self.user.fun_move()
