@@ -82,29 +82,29 @@ class Ship:
 class Sea:
     '''Создает поле игры'''
 
-    def __init__(self, hide=False):
+    def __init__(self, hide=True):
 
         self.hide = hide  # скрывает клетки с кораблем
         self.count = 0  # кол-во пораженных кораблей
 
-        self.sea_cage = [["| O"] * 9 for _ in range(9)]
+        self.sea_cage = [["O"] * 9 for _ in range(9)]
 
         self.used_cage = []  # список занятых клеток любых
         self.map_ship = []  # список кораблей всех
 
     # создание клеток моря
     def __str__(self):
-        print('   | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |')
-        print("-" * 42)
         res = ""
+        print(' | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |')
+        #print("-" * 40)
+
 
         for r, row in enumerate(self.sea_cage):
-            print(r, ' ', *row, '|')
-            # res += f"\n{i} | " + " | ".join(row) + " |" если есть f-функция
+            res += f"\n{r} | " + " | ".join(row) + " |" #если есть f-функция
 
         # cкрывает корабли
         if self.hide:
-            res = res.replace("| ▉", "| O")
+            res = res.replace("▉", "O")
             print("я тут")
         return res
 
@@ -116,13 +116,13 @@ class Sea:
                 raise BoardWrongShipException(GeneralException)
 
         for d in ship.fun_makeship:
-            self.sea_cage[d.x][d.y] = "| ▉"
+            self.sea_cage[d.x][d.y] = "▉"
             self.used_cage.append(d)
 
         self.map_ship.append(ship)
         self.fun_perimetr(ship)
 
-    def fun_perimetr(self, ship, view=False):
+    def fun_perimetr(self, ship, view=True):
         perimetr = [(-1, -1), (-1, 0), (-1, 1),
                     (0, -1), (0, 0), (0, 1),
                     (1, -1), (1, 0), (1, 1)]
@@ -132,7 +132,7 @@ class Sea:
                 zon = A(d.x + dx, d.y + dy)
                 if not (self.fun_out(zon)) and zon not in self.used_cage:
                     if view:
-                        self.sea_cage[zon.x][zon.y] = "| •"
+                        self.sea_cage[zon.x][zon.y] = "•"
                     self.used_cage.append(zon)
         return self.used_cage
 
@@ -154,7 +154,7 @@ class Sea:
         for ship in self.map_ship:
             if d in ship.fun_makeship:  # если d есть в списке координат корабля, то
                 ship.lives -= 1  # уменьшает жизнь
-                self.sea_cage[d.x][d.y] = "| X"  # отмечает ход в клетке
+                self.sea_cage[d.x][d.y] = "X"  # отмечает ход в клетке
 
                 if ship.lives == 0:
                     self.count += 1  # добавляет в список убитых
@@ -167,7 +167,7 @@ class Sea:
                     time.sleep(1)
                     return True  # добавляет ход
 
-        self.sea_cage[d.x][d.y] = "| •"
+        self.sea_cage[d.x][d.y] = "•"
 
         print("\033[32m", "Мимо!", "\033[0m")
         time.sleep(1)
@@ -241,7 +241,8 @@ class Game:
         else:
             plaboard = boards
         comboard = self.fun_randboa()
-        comboard.hide = False
+        comboard.hide = True
+        plaboard.hide = False
 
         self.kom = Kom(comboard, plaboard)
         self.user = User(plaboard, comboard)
