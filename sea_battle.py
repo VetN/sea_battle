@@ -100,12 +100,12 @@ class Sea:
 
 
         for r, row in enumerate(self.sea_cage):
-            res += f"\n{r} | " + " | ".join(row) + " |" #если есть f-функция
+            res += f"\n{r} | " + " | ".join(row) + " |"
 
         # cкрывает корабли
         if self.hide:
             res = res.replace("▉", "O")
-            print("я тут")
+
         return res
 
     # cтавит корабль на море
@@ -122,7 +122,7 @@ class Sea:
         self.map_ship.append(ship)
         self.fun_perimetr(ship)
 
-    def fun_perimetr(self, ship, view=True):
+    def fun_perimetr(self, ship, view=False):
         perimetr = [(-1, -1), (-1, 0), (-1, 1),
                     (0, -1), (0, 0), (0, 1),
                     (1, -1), (1, 0), (1, 1)]
