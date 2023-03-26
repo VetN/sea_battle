@@ -82,7 +82,7 @@ class Ship:
 class Sea:
     '''Создает поле игры'''
 
-    def __init__(self, hide=True):
+    def __init__(self, hide):
 
         self.hide = hide  # скрывает клетки с кораблем
         self.count = 0  # кол-во пораженных кораблей
@@ -94,19 +94,17 @@ class Sea:
 
     # создание клеток моря
     def __str__(self):
-        res = ""
-        print(' | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |')
-        #print("-" * 40)
 
+        print('  | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |')
+        print("-" * 40, end='')
+        sea = ""
 
         for r, row in enumerate(self.sea_cage):
-            res += f"\n{r} | " + " | ".join(row) + " |"
+            sea += f"\n{r} | " + " | ".join(row) + " |"
 
-        # cкрывает корабли
         if self.hide:
-            res = res.replace("▉", "O")
-
-        return res
+            sea = sea.replace("▉", "O")
+        return sea
 
     # cтавит корабль на море
     def fun_addshipsea(self, ship):
@@ -120,9 +118,12 @@ class Sea:
             self.used_cage.append(d)
 
         self.map_ship.append(ship)
-        self.fun_perimetr(ship)
+        if choice == 1:
+            self.fun_perimetr(ship, view=False)
+        else:
+            self.fun_perimetr(ship)
 
-    def fun_perimetr(self, ship, view=False):
+    def fun_perimetr(self, ship, view=True):
         perimetr = [(-1, -1), (-1, 0), (-1, 1),
                     (0, -1), (0, 0), (0, 1),
                     (1, -1), (1, 0), (1, 1)]
@@ -134,6 +135,7 @@ class Sea:
                     if view:
                         self.sea_cage[zon.x][zon.y] = "•"
                     self.used_cage.append(zon)
+
         return self.used_cage
 
     # определение точки за пределами поля игры
@@ -235,14 +237,14 @@ class Game:
     '''  Создание карты расстановки всех кораблей.  '''
 
     def __init__(self):
-        # plaboard = self.fun_randboa()
-        if choice == 0:
+
+        if choice == 0:  # корабли расставляет компьютер
             plaboard = self.fun_randboa()
+            plaboard.hide = False  # возвращаем видимость кораблей игрока
         else:
             plaboard = boards
+
         comboard = self.fun_randboa()
-        comboard.hide = True
-        plaboard.hide = False
 
         self.kom = Kom(comboard, plaboard)
         self.user = User(plaboard, comboard)
@@ -258,7 +260,8 @@ class Game:
     @staticmethod
     def fun_makeboard():
         lens = [4, 3, 3, 2, 2, 1, 1, 1]
-        board = Sea()
+        board = Sea(hide=True)
+
         addmakeboard = 0
         for pipe in lens:
             while True:
@@ -278,7 +281,9 @@ class Game:
     def fun_cyclegame(self):
         num = 0
         while True:
-            print("\033[35m", "Игровое поле игрока\n", self.user.board, "\033[0m")
+
+            print("\033[34m", "Игровое поле игрока\n", self.user.board, "\033[0m")
+
             print("Игровое поле компьютера\n", self.kom.board)
             if num % 2 == 0:
                 print("Ваш ход! Ход №", num)
@@ -347,7 +352,7 @@ def fun_maps(x, y, pipe, cour, board):
     try:
         board.fun_addshipsea(ship)
     except BoardWrongShipException:
-        print("Этот ход уже был")
+        print("Соприкосновение кораблей. Переходите")
         fun_enter(pipe, board)
     boa = board
     print(boa)
@@ -368,7 +373,6 @@ def fun_enter(pipe, board):
         nos, cour = loop()
         x, y = nos
         boa = fun_maps(x, y, pipe, cour, board)
-
     return boa
 
 
@@ -381,11 +385,11 @@ def fun_hello():
 
 # расставляем корабли
 def fun_draw():
-    board = Sea()
+    board = Sea(hide=False)
     print("\033[34m", "Расстановка четырехтрубника\nкоординаты носа корабля", "\033[0m")
     boa = fun_enter(4, board)
 
-    for i in range(2):
+    for i in range(1):
         print("\033[34m", "Расстановка трех трубника\nкоординаты носа корабля", "\033[0m")
         fun_enter(3, board)
 
@@ -396,7 +400,7 @@ def fun_draw():
     for i in range(4):
         print("\033[34m", "Расстановка одно трубника\nкоординаты носа корабля", "\033[0m")
         fun_enter(1, board)
-    
+
     return boa
 
 
@@ -405,14 +409,13 @@ fun_hello()
 while True:
     ans_st = input("Вы хотите расставить корабли? Нажмите 1\nЕсли это сделать компьютеру, то любую букву")
     if ans_st != "1":
-        choice = 0
-
+        choice = 0  # видимость кораблей
     else:
         print("\033[34m", "Расстановка кораблей", "\033[0m")
         choice = 1
-        b = Sea()
+        b = Sea(hide=False)
         print(b)
-        boards = fun_draw()   # создаем сами карту кораблей
+        boards = fun_draw()  # создаем сами карту кораблей
         boards.fun_newlist()  # обнуляем список занятых клеток
     print("\033[33m", "НАЧИНАЕМ ИГРУ", "\033[0m")
     f = Game().fun_cyclegame()   # уходим в цикл игры
