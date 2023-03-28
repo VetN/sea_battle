@@ -95,7 +95,7 @@ class Sea:
     # создание клеток моря
     def __str__(self):
 
-        print('  | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |')
+        print(' | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |')
         print("-" * 40, end='')
         sea = ""
 
@@ -118,10 +118,7 @@ class Sea:
             self.used_cage.append(d)
 
         self.map_ship.append(ship)
-        if choice == 1:
-            self.fun_perimetr(ship, view=False)
-        else:
-            self.fun_perimetr(ship)
+        self.fun_perimetr(ship, view=False)
 
     def fun_perimetr(self, ship, view=True):
         perimetr = [(-1, -1), (-1, 0), (-1, 1),
@@ -353,7 +350,6 @@ def fun_maps(x, y, pipe, cour, board):
         board.fun_addshipsea(ship)
     except BoardWrongShipException:
         print("Соприкосновение кораблей. Переходите")
-        fun_enter(pipe, board)
     boa = board
     print(boa)
     return boa
@@ -389,7 +385,7 @@ def fun_draw():
     print("\033[34m", "Расстановка четырехтрубника\nкоординаты носа корабля", "\033[0m")
     boa = fun_enter(4, board)
 
-    for i in range(1):
+    for i in range(2):
         print("\033[34m", "Расстановка трех трубника\nкоординаты носа корабля", "\033[0m")
         fun_enter(3, board)
 
